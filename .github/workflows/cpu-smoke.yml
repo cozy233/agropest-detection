@@ -1,0 +1,36 @@
+name: CPU smoke tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  model-and-labels:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      CUDA_VISIBLE_DEVICES: ""
+      REQUIRE_MODEL_SMOKE: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install official CPU wheels
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install --index-url https://download.pytorch.org/whl/cpu torch==2.6.0 torchvision==0.21.0
+          python -m pip install -r requirements.txt
+      - name: Show runtime versions
+        run: python -c "import torch, torchvision; print('torch', torch.__version__); print('torchvision', torchvision.__version__)"
+      - name: Check command entry points
+        run: |
+          python train.py --help
+          python evaluate_map.py --help
+      - name: Check labels and CPU detector modes
+        run: python -m unittest discover -s tests -v
