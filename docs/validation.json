@@ -1,0 +1,115 @@
+{
+  "date": "2026-11-15",
+  "checks": [
+    "Python source syntax: passed",
+    "4 annotation unit tests: passed",
+    "train and evaluation CLI help: passed"
+  ],
+  "data_annotation_audit": [
+    {
+      "split": "train",
+      "total_images": 11502,
+      "checked_images": 11502,
+      "empty_annotations": 3,
+      "objects_by_class": {
+        "Bees": 1596,
+        "Ants": 2231,
+        "Beetles": 1058,
+        "Wasps": 1167,
+        "Caterpillars": 1740,
+        "Moths": 1062,
+        "Earthworms": 1083,
+        "Earwigs": 1182,
+        "Grasshoppers": 1071,
+        "Slugs": 918,
+        "Snails": 1199,
+        "Weevils": 975
+      },
+      "errors": []
+    },
+    {
+      "split": "valid",
+      "total_images": 1095,
+      "checked_images": 1095,
+      "empty_annotations": 0,
+      "objects_by_class": {
+        "Ants": 178,
+        "Bees": 110,
+        "Beetles": 100,
+        "Caterpillars": 139,
+        "Snails": 107,
+        "Moths": 101,
+        "Earthworms": 72,
+        "Slugs": 91,
+        "Earwigs": 104,
+        "Grasshoppers": 102,
+        "Wasps": 132,
+        "Weevils": 105
+      },
+      "errors": []
+    },
+    {
+      "split": "test",
+      "total_images": 546,
+      "checked_images": 546,
+      "empty_annotations": 0,
+      "objects_by_class": {
+        "Ants": 87,
+        "Beetles": 44,
+        "Bees": 44,
+        "Caterpillars": 93,
+        "Moths": 47,
+        "Earthworms": 40,
+        "Earwigs": 73,
+        "Grasshoppers": 55,
+        "Slugs": 51,
+        "Snails": 50,
+        "Wasps": 47,
+        "Weevils": 58
+      },
+      "errors": []
+    }
+  ],
+  "not_run": [
+    "PyTorch detector construction/inference",
+    "Training or COCO-style mAP evaluation"
+  ],
+  "environment_note": "The active Python interpreter does not contain torch, torchvision or torchmetrics.",
+  "local_test_suite": {
+    "total_tests": 7,
+    "passed": 4,
+    "skipped": 3,
+    "model_smoke_status": "three integration checks skipped: torch/torchvision not installed"
+  },
+  "ci_model_smoke": {
+    "workflow": ".github/workflows/cpu-smoke.yml",
+    "python": "3.11",
+    "torch": "2.6.0 CPU",
+    "torchvision": "0.21.0 CPU",
+    "status": "configured; not executed locally",
+    "scope": [
+      "13-class random-weight detector construction",
+      "finite train loss dictionary",
+      "validation loss finiteness and per-module flag restoration",
+      "unchanged FrozenBatchNorm running statistics during validation",
+      "eval prediction schema and labels 1..12",
+      "fine-tuned checkpoint round-trip with identical evaluation output",
+      "random/local/mocked-COCO initialization uses identical normalization epsilon and trainable stages",
+      "one actual backward pass with finite gradients on trainable parameters"
+    ],
+    "command": "python -m unittest discover -s tests -v"
+  },
+  "model_architecture": {
+    "backbone": "ResNet-50 FPN",
+    "normalization": "FrozenBatchNorm2d",
+    "normalization_eps": 0.0,
+    "trainable_backbone_layers": 3,
+    "class_count": 13,
+    "consistent_paths": [
+      "random initialization",
+      "downloaded COCO initialization",
+      "local COCO initialization",
+      "fine-tuned checkpoint evaluation"
+    ]
+  }
+}
