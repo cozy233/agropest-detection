@@ -1,0 +1,7 @@
+# Proposed dependency ranges; the complete ML environment has not been replayed.
+# Install matching torch/torchvision wheels for your CPU/CUDA platform.
+torch>=2.6,<3
+torchvision>=0.21,<1
+torchmetrics>=1.6,<2
+pycocotools>=2.0.8,<3
+Pillow>=10,<13
